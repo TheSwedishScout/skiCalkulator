@@ -1,6 +1,4 @@
-import logo from './logo.svg';
-
-import { SkiCalkulator } from './components/SkiCalkulator';
+import { SkiCalculator } from './components/SkiCalculator';
 
 import './App.scss';
 
@@ -8,10 +6,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <h1>Stratsys Ski length</h1>
+       <h1>Ski length calculator</h1>
       </header>
       <main>
-        <SkiCalkulator />
+        <SkiCalculator />
       </main>
     </div>
   );

@@ -17,27 +17,29 @@
   const freestyleSkiMaxLengthAdd = 10
   const freestyleSkiLengthDiff = 5
 
-export const calculateSkiLength = (myAge, myLength, myStyle) => {
-  if (myAge <= 4 ) {
-    const skiLength = Math.min(Number(myLength), myStyle === 'classic' ? classicSkiMaxLength :freestyleSkiMaxLength)
+export const calculateSkiLength = (age, inLength, style) => {
+  
+  // nobody is les then 3cm or longer then 3 meters
+  const length = Number(inLength) < 3 && String(inLength).length > 1 ? inLength * 100 : inLength
+  
+  if (age <= 4 ) {
+    const skiLength = Math.min(Number(length), style === 'classic' ? classicSkiMaxLength :freestyleSkiMaxLength)
     return [skiLength, 0]
   }
-  if( myAge <= 8) {
-    const skiLength = Math.min(Number(myLength) + FiveToEightSkiLengthAdd, classicSkiMaxLength)
-    return [skiLength, skiLengthDiff(skiLength, myStyle === 'classic' ? classicSkiMaxLength: freestyleSkiMaxLength, FiveToEightSkiLengthDiff)]
+  if( age <= 8) {
+    const skiLength = Math.min(Number(length) + FiveToEightSkiLengthAdd, classicSkiMaxLength)
+    return [skiLength, skiLengthDiff(skiLength, style === 'classic' ? classicSkiMaxLength: freestyleSkiMaxLength, FiveToEightSkiLengthDiff)]
   }
-  if(myStyle === 'classic') {
-    return [Math.min(Number(myLength) + classicSkiMaxLengthAdd, classicSkiMaxLength), 0]
+  if(style === 'classic') {
+    return [Math.min(Number(length) + classicSkiMaxLengthAdd, classicSkiMaxLength), 0]
   }
-  if(myStyle === 'freestyle') {
-    const skiLength = Math.min(Number(myLength) + freestyleSkiMaxLengthAdd, freestyleSkiMaxLength)
+  if(style === 'freestyle') {
+    const skiLength = Math.min(Number(length) + freestyleSkiMaxLengthAdd, freestyleSkiMaxLength)
     return [skiLength, skiLengthDiff(skiLength, freestyleSkiMaxLength, freestyleSkiLengthDiff)]
   }
   return null
 }
 
-
-const skiLengthDiff = (skiLength, maxLength, maxDiff) => {
-  return skiLength >= maxLength - maxDiff ? maxLength - skiLength : maxDiff 
-
+export const skiLengthDiff = (skiLength, maxLength, maxDiff) => {
+  return skiLength >= maxLength - maxDiff ? Math.max(maxLength - skiLength, 0) : maxDiff 
 }
